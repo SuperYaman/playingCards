@@ -10,5 +10,5 @@ import { Monster } from '../../models/monster.model';
 })
 export class PlayingCardComponent {
 
-  monster: InputSignal<Monster> = input.required();
+  @Input() monster = new Monster();
 }

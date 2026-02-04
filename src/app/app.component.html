@@ -1,7 +1,13 @@
-<app-search-bar 
+<button (click)="toggleMonster()">Toggle Monster</button>
+<div id="card-list">
+  <app-playing-card [monster]="monsters[selectedMonsterIndex]"/>
+</div>
+
+
+<!-- <app-search-bar 
   (submit)="increaseCount()"
   [(search)]="search"
 />
 
 Search: {{search}} <br />
-Click count: {{count}}
+Click count: {{count}} -->
