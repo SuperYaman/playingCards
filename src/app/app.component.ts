@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { PlayingCardComponent } from "./components/playing-card/playing-card.component";
 import { Monster } from './models/monster.model';
 import { SearchBarComponent } from "./components/search-bar/search-bar.component";
+import { MonsterType } from './utils/monster.utils';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +17,16 @@ export class AppComponent {
   count: number = 0;
   search = '';
 
-  selectedMonsterIndex = 0;
+  selectedMonsterIndex = signal(1);
+  selectedMonster = computed(() => {
+    return this.monsters[this.selectedMonsterIndex()];
+  });
 
   constructor() {
+    effect(() => {
+      console.log(this.selectedMonster());
+    })
+
     this.monsters = [];
 
     const monster1 = new Monster();
@@ -30,10 +38,21 @@ export class AppComponent {
 
     const monster2 = new Monster();
     monster2.name = "Amphinobi";
+    monster2.image = "../../assets/img/amphinobi.jpg";
+    monster2.type = MonsterType.WATER;
     monster2.hp = 60;
     monster2.figureCaption = "N°002";
     monster2.attackDescription = "";
     this.monsters.push(monster2);
+
+    const monster3 = new Monster();
+    monster3.name = "Oho";
+    monster3.image = "../../assets/img/oho.jpg";
+    monster3.type = MonsterType.FIRE;
+    monster3.hp = 120;
+    monster3.figureCaption = "N°003";
+    monster3.attackDescription = "";
+    this.monsters.push(monster3);
   }
 
   increaseCount() {
@@ -41,7 +60,7 @@ export class AppComponent {
   }
 
   toggleMonster() {
-    this.selectedMonsterIndex = (this.selectedMonsterIndex +1) % this.monsters.length;
+    this.selectedMonsterIndex.set((this.selectedMonsterIndex() +1) % this.monsters.length);
   }
 
 }
